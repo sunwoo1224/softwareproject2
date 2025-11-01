@@ -1,0 +1,35 @@
+#include <Servo.h>
+
+#define PIN_SERVO 10
+#define _SERVO_SPEED_FAST 3.0
+#define _SERVO_SPEED_SLOW 0.3
+
+Servo myServo;
+
+void setup() {
+  myServo.attach(PIN_SERVO);
+  myServo.write(0);
+  delay(1000);
+
+  slowMove(0, 180, _SERVO_SPEED_FAST);
+  delay(2000);
+
+  slowMove(0, 90, _SERVO_SPEED_SLOW);
+  delay(2000);
+
+  myServo.write(0);
+}
+
+void loop() {
+}
+
+void slowMove(int startAngle, int endAngle, float SPEED) {
+  int totalSteps = abs(endAngle - startAngle);
+  int step = (endAngle > startAngle) ? 1 : -1;
+  float delayTime = (1000.0 / SPEED);
+
+  for (int i = 0; i <= totalSteps; i++) {
+    myServo.write(startAngle + i * step);
+    delay(delayTime);
+  }
+}
